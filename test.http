@@ -1,0 +1,31 @@
+GET http://localhost:8080/api/employees
+
+###
+
+POST http://localhost:8080/employees/
+Content-Type: application/json
+
+{
+    "name": "Robert Downey",
+    "level": "Senior",
+    "position": "Sidekick"
+}
+
+###
+
+DELETE http://localhost:8080/employees/6332ccb9510a829eeb8544dd
+
+
+###
+
+PATCH http://localhost:8080/employees/6332c7a2a504d2e7988d42eb
+Content-Type: application/json
+
+{
+    "position": "Sidekick",
+    "level": "Expert"
+}
+
+###
+
+get http://localhost:8080/api/location
