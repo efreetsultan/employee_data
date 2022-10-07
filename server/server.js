@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const employeesRouter = require("./routes/employees.router");
+const locationsRouter = require("./routes/locations.router")
 
 const mongoUrl = process.env.MONGO_URL;
 
@@ -15,12 +16,13 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/employees", employeesRouter);
+app.use("/api/locations", locationsRouter)
 
 const main = async () => {
   await mongoose.connect(mongoUrl);
   app.listen(8080, () => {
     console.log("App is listening on 8080"),
-      console.log("Try /employees route now");
+      console.log("Try /employees or /locations route now");
   });
 };
 

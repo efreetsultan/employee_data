@@ -9,6 +9,10 @@ const fetchEmployees = () => {
   return fetch("/api/employees").then((res) => res.json());
 };
 
+const fetchLocations = () => {
+  return fetch("/api/locations").then((res) => res.json());
+};
+
 
 const deleteEmployee = (id) => {
   return fetch(`/api/employees/${id}`, {
@@ -20,6 +24,7 @@ export default function Employees() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+  const [location, setLocation] = useState([]);
 
   const handleDelete = (id) => {
     deleteEmployee(id).catch((error) => {
@@ -34,6 +39,21 @@ export default function Employees() {
     fetchEmployees()
       .then((employees) => {
         setData(employees);
+        setLoading(false);
+        setError(null);
+      })
+      .catch((error) => {
+        setData(null);
+        setLoading(false);
+        setError(error);
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetchLocations()
+      .then((location) => {
+        setLocation(location)
         setLoading(false);
         setError(null);
       })

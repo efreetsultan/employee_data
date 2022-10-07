@@ -28,4 +28,4 @@ Content-Type: application/json
 
 ###
 
-get http://localhost:8080/api/location
+get http://localhost:8080/api/locations
