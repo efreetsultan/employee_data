@@ -29,3 +29,15 @@ Content-Type: application/json
 ###
 
 get http://localhost:8080/api/location
+
+###
+
+patch http://localhost:8080/api/employees/63412ba162fd1537d9046fc4
+Content-Type: application/json
+
+{
+    "worklog": {
+        "workingHours": 5,
+        "labelOfWork": "Shit"
+    }
+}
