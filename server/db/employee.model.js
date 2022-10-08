@@ -10,6 +10,10 @@ const EmployeeSchema = new Schema({
   level: String,
   position: String,
   location: String,
+  notes: {
+    someShit: String,
+    moreShit: String,
+  }
 });
 
 module.exports = mongoose.model("Employee", EmployeeSchema);

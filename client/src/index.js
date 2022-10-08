@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Employees from "./Employees";
 import EmployeeCreator from "./EmployeeCreator";
 import EmployeeUpdater from "./EmployeeUpdater";
+import EmployeeNotes from "./EmployeeNotes";
 
 import reportWebVitals from "./reportWebVitals";
 
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
     path: "/update/:id",
     element: <EmployeeUpdater />,
   },
+  {
+    path: "/notes/:id",
+    element: <EmployeeNotes />,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

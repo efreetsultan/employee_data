@@ -14,10 +14,10 @@ const main = async () => {
   await mongoose.connect(mongoUrl);
   await EmployeeModel.deleteMany({});
   await EmployeeModel.create(
-    { name: "Keanu Reeves", level: "Senior", position: "Main actor" },
-    { name: "Edward Norton", level: "Master", position: "Director" },
-    { name: "Scarlet Johansson", level: "Medior", position: "Love Interest" },
-    { name: "Tom Holland", level: "Junior", position: "Antagonist" }
+    { name: "Keanu Reeves", level: "Senior", position: "Main actor", notes: {someShit: "5", moreShit: "1"} },
+    { name: "Edward Norton", level: "Master", position: "Director", notes: {} },
+    { name: "Scarlet Johansson", level: "Medior", position: "Love Interest", notes: {} },
+    { name: "Tom Holland", level: "Junior", position: "Antagonist", notes: {} }
   );
   await mongoose.disconnect();
 };

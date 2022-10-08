@@ -85,6 +85,11 @@ export default function Employees() {
                   <Delete />
                 </Button>
                   </Tooltip>
+                  <Tooltip title="Add Notes">
+                  <Button variant="contained">
+                  <Link to={`/notes/${employee._id}`}><Upgrade /></Link>
+                  </Button>
+                  </Tooltip>
                 </TableCell>
               </TableRow>
             ))}
