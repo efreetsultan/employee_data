@@ -24,6 +24,7 @@ export default function EmployeeUpdater() {
   const [name, setName] = useState("");
   const [level, setLevel] = useState("");
   const [position, setPosition] = useState("");
+  const [worklog, setWorklog] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,12 +34,12 @@ export default function EmployeeUpdater() {
         setName(employee.name);
         setLevel(employee.level);
         setPosition(employee.position);
+        setWorklog(employee.worklog);
       })
       .then((error) => {
         console.log(error);
       });
   }, [id]);
-
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -52,9 +53,23 @@ export default function EmployeeUpdater() {
     setPosition(event.target.value);
   };
 
+  const handleWorkingHoursChange = (event) => {
+      let bela = [ ...worklog] ;
+      bela[0].workingHours = event.target.value;
+    setWorklog(bela)
+    console.log(worklog)
+    };
+
+  const handleLabelForWorkChange = (event) => {
+    let bela = [...worklog];
+    bela[0].labelForWork = event.target.value;
+    setWorklog(bela)
+    console.log(worklog)
+  };
+
   const handleUpdateEmployee = (event) => {
     event.preventDefault();
-    updateEmployee({ id, name, level, position})
+    updateEmployee({ id, name, level, position, worklog })
       .then(() => {
         navigate("/");
       })
@@ -100,6 +115,28 @@ export default function EmployeeUpdater() {
             onChange={handlePositionChange}
             variant="standard"
             label="Position: "
+          ></TextField>
+        </div>
+        <div>
+          <TextField
+            required
+            id="position"
+            type="text"
+            value={worklog.workingHours}
+            onChange={handleWorkingHoursChange}
+            variant="standard"
+            label="Working Hours:  "
+          ></TextField>
+        </div>
+        <div>
+          <TextField
+            required
+            id="position"
+            type="text"
+            value={worklog.labelForWork}
+            onChange={handleLabelForWorkChange}
+            variant="standard"
+            label="Label for Work: "
           ></TextField>
         </div>
         <div>

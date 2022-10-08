@@ -18,12 +18,16 @@ DELETE http://localhost:8080/employees/6332ccb9510a829eeb8544dd
 
 ###
 
-PATCH http://localhost:8080/employees/6332c7a2a504d2e7988d42eb
+PATCH http://localhost:8080/api/employees/63405f7765f0dc8afca8e972
 Content-Type: application/json
 
 {
-    "position": "Sidekick",
-    "level": "Expert"
+    "worklog": [
+        {
+        "workingHours": 1,
+      "labelForWork": "shit"
+        }
+    ]
 }
 
 ###

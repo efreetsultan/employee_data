@@ -9,7 +9,13 @@ const EmployeeSchema = new Schema({
   name: String,
   level: String,
   position: String,
-  location: String,
+  worklog: 
+    {
+      workingHours: Number,
+      labelForWork: String
+    }
+    
+  
 });
 
 module.exports = mongoose.model("Employee", EmployeeSchema);
