@@ -24,6 +24,10 @@ export default function EmployeeUpdater() {
   const [name, setName] = useState("");
   const [level, setLevel] = useState("");
   const [position, setPosition] = useState("");
+  const [startingDate, setStartingDate] = useState("");
+  const [favoriteColor, setFavoriteColor] = useState("");
+  const [currentSalary, setCurrentSalary] = useState("");
+  const [desiredSalary, setDesiredSalary] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,12 +37,15 @@ export default function EmployeeUpdater() {
         setName(employee.name);
         setLevel(employee.level);
         setPosition(employee.position);
+        setStartingDate(employee.startingDate);
+        setFavoriteColor(employee.favoriteColor);
+        setCurrentSalary(employee.currentSalary);
+        setDesiredSalary(employee.desiredSalary);
       })
       .then((error) => {
         console.log(error);
       });
   }, [id]);
-
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -52,9 +59,35 @@ export default function EmployeeUpdater() {
     setPosition(event.target.value);
   };
 
+  const handleStartingDateChange = (event) => {
+    setStartingDate(event.target.value);
+  };
+
+  const handleFavoriteColorChange = (event) => {
+    setFavoriteColor(event.target.value);
+    console.log(favoriteColor);
+  };
+
+  const handleCurrentSalaryChange = (event) => {
+    setCurrentSalary(event.target.value);
+  };
+
+  const handleDesiredSalaryChange = (event) => {
+    setDesiredSalary(event.target.value);
+  };
+
   const handleUpdateEmployee = (event) => {
     event.preventDefault();
-    updateEmployee({ id, name, level, position})
+    updateEmployee({
+      id,
+      name,
+      level,
+      position,
+      startingDate,
+      favoriteColor,
+      currentSalary,
+      desiredSalary,
+    })
       .then(() => {
         navigate("/");
       })
@@ -100,6 +133,44 @@ export default function EmployeeUpdater() {
             onChange={handlePositionChange}
             variant="standard"
             label="Position: "
+          ></TextField>
+        </div>
+        <div id="calendar-div">
+          <label for="calendar">Select Date:</label>
+          <input
+            type="date"
+            value={startingDate}
+            onChange={handleStartingDateChange}
+          />
+        </div>
+        <div>
+          <label for="color">Select Color:</label>
+          <input
+            type="color"
+            value={favoriteColor}
+            onChange={handleFavoriteColorChange}
+          ></input>
+        </div>
+        <div>
+          <TextField
+            required
+            id="current-salary"
+            type="number"
+            value={currentSalary}
+            onChange={handleCurrentSalaryChange}
+            variant="outlined"
+            label="Current Salary:"
+          ></TextField>
+        </div>
+        <div>
+          <TextField
+            required
+            id="desired-salary"
+            type="number"
+            value={desiredSalary}
+            onChange={handleDesiredSalaryChange}
+            variant="outlined"
+            label="Desired Salary:"
           ></TextField>
         </div>
         <div>
