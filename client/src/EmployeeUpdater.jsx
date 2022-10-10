@@ -24,17 +24,24 @@ export default function EmployeeUpdater() {
   const [name, setName] = useState("");
   const [level, setLevel] = useState("");
   const [position, setPosition] = useState("");
-  const [worklog, setWorklog] = useState({});
+  const [array, setArray] = useState([]);
+  const [object1, setObject1] = useState(null);
+  const [object2, setObject2] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchEmployee(id)
       .then((employee) => {
-        setLoading(false);
         setName(employee.name);
         setLevel(employee.level);
         setPosition(employee.position);
-        setWorklog(employee.worklog);
+        setArray(
+          employee.array.length === 0
+            ? [{ object1: "", object2: "" }]
+            : employee.array
+        );
+        console.log(array);
+        setLoading(false);
       })
       .then((error) => {
         console.log(error);
@@ -53,23 +60,25 @@ export default function EmployeeUpdater() {
     setPosition(event.target.value);
   };
 
-  const handleWorkingHoursChange = (event) => {
-      let bela = [ ...worklog] ;
-      bela[0].workingHours = event.target.value;
-    setWorklog(bela)
-    console.log(worklog)
-    };
+  const handleObject1Change = (event, index) => {
+    let bela = [...array];
+    bela[index].object1 = event;
+    setObject1(event.target.value);
+    setArray(bela);
+    console.log(array);
+  };
 
-  const handleLabelForWorkChange = (event) => {
-    let bela = [...worklog];
-    bela[0].labelForWork = event.target.value;
-    setWorklog(bela)
-    console.log(worklog)
+  const handleObject2Change = (event, index) => {
+    let bela = [...array];
+    bela[index].labelForWork = event.target.value;
+    setObject2(event.target.value)
+    setArray(bela);
+    console.log(array);
   };
 
   const handleUpdateEmployee = (event) => {
     event.preventDefault();
-    updateEmployee({ id, name, level, position, worklog })
+    updateEmployee({ id, name, level, position, array: {object1, object2} })
       .then(() => {
         navigate("/");
       })
@@ -117,28 +126,34 @@ export default function EmployeeUpdater() {
             label="Position: "
           ></TextField>
         </div>
-        <div>
-          <TextField
-            required
-            id="position"
-            type="text"
-            value={worklog.workingHours}
-            onChange={handleWorkingHoursChange}
-            variant="standard"
-            label="Working Hours:  "
-          ></TextField>
-        </div>
-        <div>
-          <TextField
-            required
-            id="position"
-            type="text"
-            value={worklog.labelForWork}
-            onChange={handleLabelForWorkChange}
-            variant="standard"
-            label="Label for Work: "
-          ></TextField>
-        </div>
+        {array.map((element, index) => (
+          <div key={index}>
+            <div>
+              <TextField
+                required
+                id="position"
+                type="text"
+                value={object1}
+                onChange={(event) => handleObject1Change(event, index)}
+                variant="standard"
+                label="Working Hours:  "
+              ></TextField>
+            </div>
+            <div>
+              <TextField
+                required
+                id="position"
+                type="text"
+                value={object2}
+                onChange={(event) =>
+                  handleObject2Change(event.target.value, index)
+                }
+                variant="standard"
+                label="Label for Work: "
+              ></TextField>
+            </div>
+          </div>
+        ))}
         <div>
           <Button variant="contained" type="Submit" disabled={loading}>
             Update employee
