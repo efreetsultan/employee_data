@@ -2,12 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, TextField, Stack, Select, MenuItem } from "@mui/material/";
 import { Link } from "react-router-dom";
-import { LocalizationProvider, DesktopDatePicker } from "@mui/x-date-pickers/";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
 
 const createDivision = (division) => {
-  return fetch("/api/division", {
+  return fetch("/api/divisions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -27,6 +24,9 @@ export default function DivisionCreator() {
   const [name, setName] = useState("");
   const [boss, setBoss] = useState("");
   const [budget, setBudget] = useState("");
+  const [location, setLocation] = useState({});
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -34,8 +34,9 @@ export default function DivisionCreator() {
     fetchEmployees()
       .then((employees) => {
         setData(employees);
-          setEmployeesName(employees.name);
-          setBoss(employees)
+        setEmployeesName(employees.name);
+          setBoss(employees);
+          setLocation(employees.location)
         setLoading(false);
         setError(null);
       })
@@ -46,44 +47,48 @@ export default function DivisionCreator() {
         console.log(error);
       });
   }, []);
-    console.log(data);
-    console.log(boss);
+  console.log(data);
+  console.log(boss);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
   };
 
-    const handleBossChange = (event) => {
-        let bela = [...data]
-        bela[0]._id=event.target.value
-      setBoss(bela);
-      console.log(boss)
+  const handleBossChange = (event) => {
+    setBoss(event.target.value);
+    console.log(boss);
   };
 
-    const handleClick = (event) => {
-        setEmployeesName(event.target.value)
-        console.log(employeesName)
-    }
+  const handleClick = (event) => {
+    setEmployeesName(event.target.value);
+    console.log(employeesName);
+  };
 
   const handleBudgetChange = (event) => {
     setBudget(event.target.value);
   };
 
-  //   const handleCityChange = (event) => {
-  //     setStartingDate(event.target.value);
-  //   };
+  const handleCityChange = (event) => {
+      let bela = {...location};
+    bela.city = event.target.value;
+      setLocation(bela);
+      console.log(bela)
+    setCity(event.target.value);
+  };
 
-  //   const handleCountryChange = (event) => {
-  //     setFavoriteColor(event.target.value);
-  //     console.log(favoriteColor);
-  //   };
+  const handleCountryChange = (event) => {
+    let bela = { ...location };
+    bela.country = event.target.value;
+    setLocation(bela);
+    setCountry(event.target.value);
+  };
 
   const handleCreateDivision = (event) => {
     event.preventDefault();
     setLoading(true);
-    createDivision({ name, boss, budget /* location, location*/ })
+    createDivision({ name, boss, budget, location })
       .then(() => {
-        navigate("/");
+        navigate("/division");
       })
       .catch((error) => {
         console.log(error);
@@ -113,8 +118,10 @@ export default function DivisionCreator() {
           variant="outlined"
           label="Boss:"
         >
-          {data.map((employee) => (
-              <MenuItem key={employee._id}>{employee.name}</MenuItem>
+          {data.map((employee, index) => (
+            <MenuItem key={index} value={employee._id}>
+              {employee.name}
+            </MenuItem>
           ))}
         </Select>
         <div>
@@ -128,28 +135,28 @@ export default function DivisionCreator() {
             label="Budget:"
           ></TextField>
         </div>
-        {/* <div>
+        <div>
           <TextField
             required
-            id="current-salary"
-            type="number"
-            value={currentSalary}
-            onChange={handleCurrentSalaryChange}
+            id="city"
+            type="text"
+            value={city}
+            onChange={handleCityChange}
             variant="outlined"
-            label="Current Salary:"
+            label="City:"
           ></TextField>
         </div>
         <div>
           <TextField
             required
-            id="desired-salary"
-            type="number"
-            value={desiredSalary}
-            onChange={handleDesiredSalaryChange}
+            id="country"
+            type="text"
+            value={country}
+            onChange={handleCountryChange}
             variant="outlined"
-            label="Desired Salary:"
+            label="Country:"
           ></TextField>
-        </div> */}
+        </div>
         <div>
           <Button variant="contained" type="Submit" disabled={loading}>
             Create Division

@@ -1,9 +1,17 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, MenuItem, TextField, Select } from "@mui/material/";
+import {
+  Button,
+  MenuItem,
+  TextField,
+  Select,
+  OutlinedInput,
+  Checkbox,
+  ListItemText,
+} from "@mui/material/";
 import { Link } from "react-router-dom";
-import Loading from "./Loading"
+import Loading from "./Loading";
 
 const updateEmployee = (employee) => {
   return fetch(`/api/employees/${employee.id}`, {
@@ -34,8 +42,19 @@ export default function EmployeeUpdater() {
   const [currentSalary, setCurrentSalary] = useState("");
   const [desiredSalary, setDesiredSalary] = useState("");
   const [division, setDivision] = useState([]);
-  const [divisionData, setDivisionData]= useState([])
+  const [divisionData, setDivisionData] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
 
   useEffect(() => {
     fetchEmployee(id)
@@ -51,16 +70,11 @@ export default function EmployeeUpdater() {
       .then((error) => {
         console.log(error);
       });
-      fetchDivisions()
-      .then((division) => {
-        setDivisionData(division)
-        setDivision(division[0]);
-        setLoading(false);
-        
-      })
-    }, [id]);
-    console.log(divisionData)
-    console.log(division)
+    fetchDivisions().then((div) => {
+      setDivisionData(div);
+      setLoading(false);
+    });
+  }, [id]);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -80,8 +94,7 @@ export default function EmployeeUpdater() {
 
   const handleFavoriteColorChange = (event) => {
     setFavoriteColor(event.target.value);
-    console.log(favoriteColor)
-    
+    console.log(favoriteColor);
   };
 
   const handleCurrentSalaryChange = (event) => {
@@ -93,13 +106,13 @@ export default function EmployeeUpdater() {
   };
 
   const handleDivisionChange = (event) => {
-    //   const newArray = [...divisionData];
-    //   newArray[0]._id = event.target.value;
-    // setDivision(newArray);
-    // console.log(newArray)
-    setDivision(event.target.value)
+    // setDivision(event.target.value);
+    const {
+      target: { value },
+    } = event;
+    setDivision(typeof value === "string" ? value.split(",") : value);
     console.log(division)
-    }
+  };
 
   const handleUpdateEmployee = (event) => {
     event.preventDefault();
@@ -112,7 +125,7 @@ export default function EmployeeUpdater() {
       favoriteColor,
       currentSalary,
       desiredSalary,
-      divisions: [division]
+      divisions: division,
     })
       .then(() => {
         navigate("/");
@@ -204,9 +217,20 @@ export default function EmployeeUpdater() {
           ></TextField>
         </div>
         <div>
-          <Select value={division._id } label="Select Division" onChange={handleDivisionChange}>
+          <Select
+            value={division}
+            label="Select Division"
+            onChange={handleDivisionChange}
+            multiple
+            input={<OutlinedInput label="Tag" />}
+            renderValue={(selected) => selected.join(", ")}
+            MenuProps={MenuProps}
+          >
             {divisionData.map((element, index) => (
-              <MenuItem key={index } value={element._id}>{element.name}</MenuItem>
+              <MenuItem key={index} value={element._id}>
+                <Checkbox checked={division.indexOf(element.name) > -1} />
+                <ListItemText primary={element.name} />
+              </MenuItem>
             ))}
           </Select>
         </div>

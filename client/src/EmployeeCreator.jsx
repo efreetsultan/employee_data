@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {Button, TextField, Stack} from "@mui/material/";
 import { Link } from "react-router-dom";
-import { LocalizationProvider, DesktopDatePicker } from '@mui/x-date-pickers/';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
+import {
+  Button,
+  MenuItem,
+  TextField,
+  Select,
+  OutlinedInput,
+  Checkbox,
+  ListItemText,
+} from "@mui/material/";
+
 
 const createEmployee = (employee) => {
   return fetch("/api/employees", {
@@ -16,6 +22,10 @@ const createEmployee = (employee) => {
   }).then((res) => res.json());
 };
 
+const fetchDivisions = () => {
+  return fetch(`/api/divisions`).then((res) => res.json());
+};
+
 export default function EmployeeCreator() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -25,7 +35,31 @@ export default function EmployeeCreator() {
   const [favoriteColor, setFavoriteColor] = useState("");
   const [currentSalary, setCurrentSalary] = useState("");
   const [desiredSalary, setDesiredSalary] = useState("");
+  const [division, setDivision] = useState([]);
+  const [divisionData, setDivisionData] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
+  useEffect(() => {
+    fetchDivisions()
+      .then((division) => {
+        setLoading(false);
+        setDivisionData(division);
+      })
+      .then((error) => {
+        console.log(error);
+      });
+}, []);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -56,11 +90,18 @@ export default function EmployeeCreator() {
     setDesiredSalary(event.target.value);
   };
 
+  const handleDivisionChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setDivision(typeof value === "string" ? value.split(",") : value);
+  };
+
 
   const handleCreateEmployee = (event) => {
     event.preventDefault();
     setLoading(true);
-    createEmployee({ name, level, position, startingDate, favoriteColor, currentSalary, desiredSalary })
+    createEmployee({ name, level, position, startingDate, favoriteColor, currentSalary, desiredSalary, divisions: division })
       .then(() => {
         navigate("/");
       })
@@ -137,6 +178,24 @@ export default function EmployeeCreator() {
             variant="outlined"
             label="Desired Salary:"
           ></TextField>
+        </div>
+        <div>
+          <Select
+            value={division}
+            label="Select Division"
+            onChange={handleDivisionChange}
+            multiple
+            input={<OutlinedInput label="Tag" />}
+            renderValue={(selected) => selected.join(", ")}
+            MenuProps={MenuProps}
+          >
+            {divisionData.map((element, index) => (
+              <MenuItem key={index} value={element._id}>
+                <Checkbox checked={division.indexOf(element.name) > -1} />
+                <ListItemText primary={element.name} />
+              </MenuItem>
+            ))}
+          </Select>
         </div>
         <div>
           <Button variant="contained" type="Submit" disabled={loading}>

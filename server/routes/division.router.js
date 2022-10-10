@@ -7,7 +7,7 @@ divisionsRouter.use("/:id", async (req, res, next) => {
     let division = null;
   
     try {
-      divsion = await DivisionsModel.findById(req.params.id);
+      division = await DivisionModel.findById(req.params.id);
     } catch {
       return res.status(400).end("Bad Request");
     }

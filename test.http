@@ -32,3 +32,7 @@ Content-Type: application/json
 ###
 
 get http://localhost:8080/api/divisions
+
+###
+
+get http://localhost:8080/api/divisions/634429e26c6b6eed2873e7d9

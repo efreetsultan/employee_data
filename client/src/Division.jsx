@@ -101,7 +101,9 @@ export default function Divisions() {
             <TableRow key={division._id}>
               <TableCell>{division.name}</TableCell>
               <TableCell>{division.boss.name}</TableCell>
-              <TableCell>{division.budget}</TableCell>
+                  <TableCell>{division.budget}</TableCell>
+                  <TableCell>{division.location.city}</TableCell>
+                  <TableCell>{ division.location.country}</TableCell>
               <TableCell style={{ display: "flex" }}>
                 <Tooltip title="Update">
                   <Button variant="contained">

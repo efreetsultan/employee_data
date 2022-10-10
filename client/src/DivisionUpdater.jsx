@@ -18,12 +18,20 @@ const fetchDivisions = (id) => {
   return fetch(`/api/divisions/${id}`).then((res) => res.json());
 };
 
+const fetchEmployees = (id) => {
+  return fetch(`/api/employees`).then((res) => res.json());
+};
+
 export default function DivisionUpdater() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [boss, setBoss] = useState("");
+  const [divisionBoss, setDivisionBoss] = useState([]);
   const [budget, setBudget] = useState("");
+  const [location, setLocation] = useState({});
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,12 +41,19 @@ export default function DivisionUpdater() {
         setName(division.name);
         setBoss(division.boss);
         setBudget(division.budget);
+        setCity(division.location.city);
+          setCountry(division.location.country);
+          setLocation(division.location)
       })
       .then((error) => {
         console.log(error);
       });
+    fetchEmployees().then((employee) => {
+      setDivisionBoss(employee);
+    });
   }, [id]);
 
+  console.log(divisionBoss);
   const handleNameChange = (event) => {
     setName(event.target.value);
   };
@@ -51,6 +66,20 @@ export default function DivisionUpdater() {
     setBudget(event.target.value);
   };
 
+  const handleCityChange = (event) => {
+    let bela = { ...location };
+    bela.city = event.target.value;
+    setLocation(bela);
+    console.log(bela);
+    setCity(event.target.value);
+  };
+
+  const handleCountryChange = (event) => {
+    let bela = { ...location };
+    bela.country = event.target.value;
+    setLocation(bela);
+    setCountry(event.target.value);
+  };
 
   const handleUpdateDivision = (event) => {
     event.preventDefault();
@@ -59,6 +88,7 @@ export default function DivisionUpdater() {
       name,
       boss,
       budget,
+      location,
     })
       .then(() => {
         navigate("/division");
@@ -86,15 +116,18 @@ export default function DivisionUpdater() {
           ></TextField>
         </div>
         <div>
-          <TextField
-            required
-            id="level"
-            type="text"
+          <Select
             value={boss}
             onChange={handleBossChange}
-            variant="standard"
-            label="Boss: "
-          ></TextField>
+            variant="outlined"
+            label="Boss:"
+          >
+            {divisionBoss.map((element, index) => (
+              <MenuItem key={index} value={element._id}>
+                {element.name}
+              </MenuItem>
+            ))}
+          </Select>
         </div>
         <div>
           <TextField
@@ -105,6 +138,28 @@ export default function DivisionUpdater() {
             onChange={handleBudgetChange}
             variant="standard"
             label="Position: "
+          ></TextField>
+        </div>
+        <div>
+          <TextField
+            required
+            id="city"
+            type="text"
+            value={city}
+            onChange={handleCityChange}
+            variant="outlined"
+            label="City:"
+          ></TextField>
+        </div>
+        <div>
+          <TextField
+            required
+            id="country"
+            type="text"
+            value={country}
+            onChange={handleCountryChange}
+            variant="outlined"
+            label="Country:"
           ></TextField>
         </div>
         <div>
