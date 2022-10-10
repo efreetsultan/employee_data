@@ -102,12 +102,12 @@ export default function Employees() {
               <TableCell>{employee.name}</TableCell>
               <TableCell>{employee.level}</TableCell>
               <TableCell>{employee.position}</TableCell>
-              <TableCell>{employee.startingDate}</TableCell>
+              <TableCell>{employee.startingDate.slice(0, 10)}</TableCell>
               <TableCell style={{ backgroundColor: employee.favoriteColor }}></TableCell>
-              <TableCell>{employee.currentSalary}</TableCell>
-              <TableCell>{employee.desiredSalary}</TableCell>
-              <TableCell>{employee.desiredSalary-employee.currentSalary}</TableCell>
-              <TableCell>
+              <TableCell>{employee.currentSalary + " $"}</TableCell>
+              <TableCell>{employee.desiredSalary + " $"}</TableCell>
+              <TableCell>{employee.desiredSalary-employee.currentSalary + " $"}</TableCell>
+              <TableCell style={{display:"flex"}}>
                 <Tooltip title="Update">
                   <Button variant="contained">
                     <Link to={`/update/${employee._id}`}>

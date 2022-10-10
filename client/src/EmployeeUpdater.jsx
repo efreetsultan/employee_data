@@ -37,7 +37,7 @@ export default function EmployeeUpdater() {
         setName(employee.name);
         setLevel(employee.level);
         setPosition(employee.position);
-        setStartingDate(employee.startingDate);
+        setStartingDate(employee.startingDate.slice(0, 10));
         setFavoriteColor(employee.favoriteColor);
         setCurrentSalary(employee.currentSalary);
         setDesiredSalary(employee.desiredSalary);
