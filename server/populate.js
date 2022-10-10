@@ -14,7 +14,7 @@ const main = async () => {
   await mongoose.connect(mongoUrl);
   await EmployeeModel.deleteMany({});
   await EmployeeModel.create(
-    { name: "Keanu Reeves", level: "Senior", position: "Main actor", array:[{object1: 1, object2: "zz"}, {object1: 5, object: "zgdhrz"}] },
+    { name: "Keanu Reeves", level: "Senior", position: "Main actor", array:[{object1: 1, object2: "zz"}, {object1: 5, object2: "zgdhrz"}] },
     { name: "Edward Norton", level: "Master", position: "Director", array:[] },
     { name: "Scarlet Johansson", level: "Medior", position: "Love Interest", array:[] },
     { name: "Tom Holland", level: "Junior", position: "Antagonist", array:[] }

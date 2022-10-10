@@ -25,8 +25,8 @@ export default function EmployeeUpdater() {
   const [level, setLevel] = useState("");
   const [position, setPosition] = useState("");
   const [array, setArray] = useState([]);
-  const [object1, setObject1] = useState(null);
-  const [object2, setObject2] = useState("");
+  // const [object1, setObject1] = useState(null);
+  // const [object2, setObject2] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export default function EmployeeUpdater() {
   const handleObject1Change = (event, index) => {
     let bela = [...array];
     bela[index].object1 = event;
-    setObject1(event.target.value);
+    // setObject1(event.target.value);
     setArray(bela);
     console.log(array);
   };
@@ -71,14 +71,14 @@ export default function EmployeeUpdater() {
   const handleObject2Change = (event, index) => {
     let bela = [...array];
     bela[index].labelForWork = event.target.value;
-    setObject2(event.target.value)
+    // setObject2(event.target.value)
     setArray(bela);
     console.log(array);
   };
 
   const handleUpdateEmployee = (event) => {
     event.preventDefault();
-    updateEmployee({ id, name, level, position, array: {object1, object2} })
+    updateEmployee({ id, name, level, position, array })
       .then(() => {
         navigate("/");
       })
@@ -89,6 +89,10 @@ export default function EmployeeUpdater() {
         setLoading(false);
       });
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div>
@@ -133,10 +137,17 @@ export default function EmployeeUpdater() {
                 required
                 id="position"
                 type="text"
-                value={object1}
-                onChange={(event) => handleObject1Change(event, index)}
+                value={element.object1}
+                onChange={(event) => {handleObject1Change(index)}
+                // {
+                //   const newArray = [...array];
+                //   newArray[index].object1 = event.target.value;
+                //   setArray(newArray);
+                // }
+                  
+                }
                 variant="standard"
-                label="Working Hours:  "
+                label="Object1:  "
               ></TextField>
             </div>
             <div>
@@ -144,12 +155,14 @@ export default function EmployeeUpdater() {
                 required
                 id="position"
                 type="text"
-                value={object2}
-                onChange={(event) =>
-                  handleObject2Change(event.target.value, index)
-                }
+                value={element.object2}
+                onChange={(event) => {
+                  const newArray = [...array];
+                  newArray[index].object2 = event.target.value;
+                  setArray(newArray);
+                }}
                 variant="standard"
-                label="Label for Work: "
+                label="Object2: "
               ></TextField>
             </div>
           </div>
