@@ -2,7 +2,7 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const DivisionModel = require("./db/division.model");
-const toId = mongoose.Types.ObjectId
+const toId = mongoose.Types.ObjectId;
 
 const mongoUrl = process.env.MONGO_URL;
 
@@ -14,21 +14,15 @@ if (!mongoUrl) {
 const main = async () => {
   await mongoose.connect(mongoUrl);
   await DivisionModel.deleteMany({});
-  await DivisionModel.create(
-      {
-          name: "The Division" ,
-          boss: {
-              $ref: "Employees",
-              $id: toId("63415488f04e332132cbf2e5"),
-              $db: "employees"
-          },
-          budget: 1000,
-              location: {
-                  city: "Budapest",
-                  country: "Hungary"
-          }
-    }
-  );
+  await DivisionModel.create({
+    name: "The Division",
+    boss: "63415488f04e332132cbf2e5",
+    budget: 1000,
+    location: {
+      city: "Budapest",
+      country: "Hungary",
+    },
+  });
   await mongoose.disconnect();
 };
 

@@ -1,4 +1,4 @@
-const EmployeeSchema = require("./employee.model")
+
 
 //ODM
 //http://mongoosejs.com/

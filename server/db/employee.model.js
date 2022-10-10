@@ -1,4 +1,4 @@
-const DivisionSchema = require("./division.model")
+
 
 //ODM
 //http://mongoosejs.com/
@@ -16,7 +16,7 @@ const EmployeeSchema = new Schema({
   favoriteColor: String,
   currentSalary: Number,
   desiredSalary: String,
-  // divisions: {type: Schema.Type.ObjectId, ref: "Division"}
+  divisions: [{type: Schema.Types.ObjectId, ref: "Division"}]
     
 });
 
