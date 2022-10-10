@@ -1,6 +1,9 @@
 GET http://localhost:8080/api/employees
 
 ###
+get http://localhost:8080/api/employees/634429ce22c5d402dc23c6af
+
+###
 
 POST http://localhost:8080/employees/
 Content-Type: application/json
@@ -28,4 +31,4 @@ Content-Type: application/json
 
 ###
 
-get http://localhost:8080/api/location
+get http://localhost:8080/api/divisions

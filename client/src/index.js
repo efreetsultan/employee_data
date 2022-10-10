@@ -5,6 +5,8 @@ import Employees from "./Employees";
 import EmployeeCreator from "./EmployeeCreator";
 import EmployeeUpdater from "./EmployeeUpdater";
 import Division from "./Division"
+import DivisionCreator from "./DivisionCreator";
+import DivisionUpdater from "./DivisionUpdater";
 
 import reportWebVitals from "./reportWebVitals";
 
@@ -26,14 +28,20 @@ const router = createBrowserRouter([
   {
     path: "/division",
     element: <Division />
+  },
+  {
+    path: "/division/update/:id",
+    element: <DivisionUpdater/>
+  },
+  {
+    path: "/division/create",
+    element: <DivisionCreator/>
   }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

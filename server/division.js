@@ -16,7 +16,7 @@ const main = async () => {
   await DivisionModel.deleteMany({});
   await DivisionModel.create({
     name: "The Division",
-    boss: "63415488f04e332132cbf2e5",
+    boss: "634429ce22c5d402dc23c6af",
     budget: 1000,
     location: {
       city: "Budapest",

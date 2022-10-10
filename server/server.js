@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const employeesRouter = require("./routes/employees.router");
+const divisionsRouter = require("./routes/division.router");
 
 const mongoUrl = process.env.MONGO_URL;
 
@@ -15,6 +16,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/employees", employeesRouter);
+app.use("/api/divisions", divisionsRouter);
 
 const main = async () => {
   await mongoose.connect(mongoUrl);

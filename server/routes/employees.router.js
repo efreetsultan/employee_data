@@ -20,7 +20,7 @@ employeesRouter.use("/:id", async (req, res, next) => {
 });
 
 employeesRouter.get("/", async (req, res) => {
-  const employees = await EmployeeModel.find();
+  const employees = await EmployeeModel.find().populate("divisions");
   return res.json(employees);
 });
 

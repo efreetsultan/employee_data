@@ -68,6 +68,7 @@ export default function Employees() {
         console.log(error);
       });
   }, []);
+  console.log(data)
 
   if (loading) {
     return <Loading />;
@@ -82,6 +83,9 @@ export default function Employees() {
       <Button variant="contained">
         <Link to="/create">Create employee</Link>
       </Button>
+      <Button variant="contained">
+        <Link to="/division">Division</Link>
+      </Button>
       <TableContainer component={Paper}>
         <TableHead>
           <TableRow>
@@ -93,6 +97,7 @@ export default function Employees() {
             <TableCell component={Paper}>Current Salary</TableCell>
             <TableCell component={Paper}>Desired Salary</TableCell>
             <TableCell component={Paper}>Diff</TableCell>
+            <TableCell component={Paper}>Divisions</TableCell>
             <TableCell component={Paper}>Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -107,6 +112,9 @@ export default function Employees() {
               <TableCell>{employee.currentSalary + " $"}</TableCell>
               <TableCell>{employee.desiredSalary + " $"}</TableCell>
               <TableCell>{employee.desiredSalary-employee.currentSalary + " $"}</TableCell>
+              {employee.divisions.map((division) => (
+              <TableCell key={division._id}>{division.name}</TableCell>
+              ))}
               <TableCell style={{display:"flex"}}>
                 <Tooltip title="Update">
                   <Button variant="contained">
