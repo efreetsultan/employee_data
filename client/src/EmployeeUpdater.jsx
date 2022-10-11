@@ -9,6 +9,8 @@ import {
   OutlinedInput,
   Checkbox,
   ListItemText,
+  InputLabel,
+  FormControl
 } from "@mui/material/";
 import { Link } from "react-router-dom";
 import Loading from "./Loading";
@@ -66,6 +68,7 @@ export default function EmployeeUpdater() {
         setFavoriteColor(employee.favoriteColor);
         setCurrentSalary(employee.currentSalary);
         setDesiredSalary(employee.desiredSalary);
+        setDivision(employee.divisions);
       })
       .then((error) => {
         console.log(error);
@@ -106,12 +109,11 @@ export default function EmployeeUpdater() {
   };
 
   const handleDivisionChange = (event) => {
-    // setDivision(event.target.value);
     const {
       target: { value },
     } = event;
-    setDivision(typeof value === "string" ? value.split(",") : value);
-    console.log(division)
+    console.log(value);
+    setDivision(value);
   };
 
   const handleUpdateEmployee = (event) => {
@@ -217,22 +219,28 @@ export default function EmployeeUpdater() {
           ></TextField>
         </div>
         <div>
+          <FormControl sx={{ m: 1, width: 300 }}>
+          <InputLabel id="demo-multiple-checkbox-label">Division</InputLabel>
           <Select
+            id="demo-multiple-checkbox-label"
             value={division}
-            label="Select Division"
             onChange={handleDivisionChange}
             multiple
             input={<OutlinedInput label="Tag" />}
-            renderValue={(selected) => selected.join(", ")}
+            renderValue={(selected) => {
+              console.log(selected);
+              return selected.map((div) => divisionData.find(d => d._id === div)?.name).join(",");
+            }}
             MenuProps={MenuProps}
           >
             {divisionData.map((element, index) => (
-              <MenuItem key={index} value={element._id}>
-                <Checkbox checked={division.indexOf(element.name) > -1} />
+              <MenuItem key={element._id} value={element._id}>
+                <Checkbox checked={division.indexOf(element._id) > -1} />
                 <ListItemText primary={element.name} />
               </MenuItem>
             ))}
           </Select>
+          </FormControl>
         </div>
         <div>
           <Button variant="contained" type="Submit" disabled={loading}>
