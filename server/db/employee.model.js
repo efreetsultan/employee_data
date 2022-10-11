@@ -10,6 +10,7 @@ const EmployeeSchema = new Schema({
   level: String,
   position: String,
   location: String,
+  height: Number
 });
 
 module.exports = mongoose.model("Employee", EmployeeSchema);

@@ -3,6 +3,18 @@ const EmployeeModel = require("../db/employee.model");
 
 const employeesRouter = new Router();
 
+employeesRouter.patch("/height", async (req, res) => {
+  function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  const employees = await EmployeeModel.find();
+  employees.map((employee) => {
+    employee.height = getRndInteger(140, 190);
+    employee.save();
+  });
+  return res.json(employees);
+});
+
 employeesRouter.use("/:id", async (req, res, next) => {
   let employee = null;
 
@@ -51,7 +63,7 @@ employeesRouter.patch("/:id", async (req, res) => {
 
 employeesRouter.delete("/:id", async (req, res) => {
   try {
-    const deleted = await req.employee.delete()
+    const deleted = await req.employee.delete();
     return res.json(deleted);
   } catch {
     return res.status(400).end("Bad Request");
